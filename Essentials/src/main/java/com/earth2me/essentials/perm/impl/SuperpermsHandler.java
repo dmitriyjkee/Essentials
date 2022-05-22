@@ -1,5 +1,7 @@
 package com.earth2me.essentials.perm.impl;
 
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.User;
 import com.earth2me.essentials.perm.IPermissionsHandler;
 import com.earth2me.essentials.utils.TriState;
 import org.bukkit.Bukkit;
@@ -140,7 +142,7 @@ public class SuperpermsHandler implements IPermissionsHandler {
     }
 
     @Override
-    public void registerContext(final String context, final Function<Player, Iterable<String>> calculator, final Supplier<Iterable<String>> suggestions) {
+    public void registerContext(final String context, final Function<User, Iterable<String>> calculator, final Supplier<Iterable<String>> suggestions) {
     }
 
     @Override
@@ -153,7 +155,7 @@ public class SuperpermsHandler implements IPermissionsHandler {
     }
 
     @Override
-    public boolean tryProvider() {
+    public boolean tryProvider(Essentials ess) {
         return getEnabledPermsPlugin() != null;
     }
 
