@@ -1,12 +1,12 @@
 package net.essentialsx.discordlink;
 
 import com.earth2me.essentials.IEssentialsModule;
+import com.google.common.base.Preconditions;
 import net.ess3.api.IUser;
 import net.essentialsx.api.v2.events.discordlink.DiscordLinkStatusChangeEvent;
 import net.essentialsx.api.v2.services.discord.InteractionMember;
 import net.essentialsx.api.v2.services.discordlink.DiscordLinkService;
 import net.essentialsx.discordlink.rolesync.RoleSyncManager;
-import org.apache.commons.lang.Validate;
 
 import java.util.Map;
 import java.util.Optional;
@@ -66,7 +66,7 @@ public class AccountLinkManager implements IEssentialsModule, DiscordLinkService
 
     @Override
     public boolean unlinkAccount(InteractionMember member) {
-        Validate.notNull(member, "member cannot be null");
+        Preconditions.checkNotNull(member, "member cannot be null");
 
         if (!isLinked(member.getId())) {
             return false;
@@ -91,7 +91,7 @@ public class AccountLinkManager implements IEssentialsModule, DiscordLinkService
 
     @Override
     public boolean unlinkAccount(UUID uuid) {
-        Validate.notNull(uuid, "uuid cannot be null");
+        Preconditions.checkNotNull(uuid, "uuid cannot be null");
 
         if (!isLinked(uuid)) {
             return false;
@@ -114,8 +114,8 @@ public class AccountLinkManager implements IEssentialsModule, DiscordLinkService
 
     @Override
     public boolean linkAccount(UUID uuid, InteractionMember member) {
-        Validate.notNull(uuid, "uuid cannot be null");
-        Validate.notNull(member, "member cannot be null");
+        Preconditions.checkNotNull(uuid, "uuid cannot be null");
+        Preconditions.checkNotNull(member, "member cannot be null");
 
         if (isLinked(uuid) || isLinked(member.getId())) {
             return false;
