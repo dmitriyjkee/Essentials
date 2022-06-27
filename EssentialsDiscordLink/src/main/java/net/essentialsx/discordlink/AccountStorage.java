@@ -20,10 +20,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AccountStorage {
-    private final static Logger logger = Logger.getLogger("EssentialsDiscordLink");
     private final Gson gson = new Gson();
     private final EssentialsDiscordLink plugin;
     private final File accountFile;
@@ -52,7 +50,7 @@ public class AccountStorage {
             }
 
             if (plugin.getEss().getSettings().isDebug()) {
-                logger.log(Level.INFO, "Saving linked discord accounts to disk...");
+                plugin.getLogger().log(Level.INFO, "Saving linked discord accounts to disk...");
             }
 
             final Map<String, String> clone;
@@ -60,7 +58,7 @@ public class AccountStorage {
             try (final Writer writer = new FileWriter(accountFile)) {
                 gson.toJson(clone, writer);
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "Failed to save link accounts!", e);
+                plugin.getLogger().log(Level.SEVERE, "Failed to save link accounts!", e);
                 mapDirty.set(true); // mark the map as dirty and pray it fixes itself :D
             }
         }, 10, 10, TimeUnit.SECONDS);
@@ -104,7 +102,7 @@ public class AccountStorage {
         try {
             executorService.shutdown();
             if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-                logger.log(Level.SEVERE, "Timed out while saving!");
+                plugin.getLogger().log(Level.SEVERE, "Timed out while saving!");
                 executorService.shutdownNow();
             }
             if (mapDirty.get()) {
@@ -113,7 +111,7 @@ public class AccountStorage {
                 }
             }
         } catch (InterruptedException | IOException e) {
-            logger.log(Level.SEVERE, "Failed to shutdown link accounts save!", e);
+            plugin.getLogger().log(Level.SEVERE, "Failed to shutdown link accounts save!", e);
             executorService.shutdownNow();
         }
     }

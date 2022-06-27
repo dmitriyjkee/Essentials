@@ -18,12 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static com.earth2me.essentials.I18n.tl;
 
 public class RoleSyncManager implements Listener {
-    private final static Logger logger = Logger.getLogger("EssentialsDiscordLink");
     private final EssentialsDiscordLink ess;
     private final Map<String, InteractionRole> groupToRoleMap = new HashMap<>();
     private final Map<String, String> roleIdToGroupMap = new HashMap<>();
@@ -147,21 +145,21 @@ public class RoleSyncManager implements Listener {
             final String group = entry.getKey();
             final InteractionRole role = ess.getApi().getRole(entry.getValue());
             if (!groups.contains(group)) {
-                logger.warning(tl("discordLinkInvalidGroup", group, entry.getValue(), groups));
+                ess.getLogger().warning(tl("discordLinkInvalidGroup", group, entry.getValue(), groups));
                 continue;
             }
             if (role == null) {
-                logger.warning(tl("discordLinkInvalidRole", entry.getValue(), group));
+                ess.getLogger().warning(tl("discordLinkInvalidRole", entry.getValue(), group));
                 continue;
             }
 
             if (role.isManaged() || role.isPublicRole()) {
-                logger.warning(tl("discordLinkInvalidRoleManaged", role.getName(), role.getId()));
+                ess.getLogger().warning(tl("discordLinkInvalidRoleManaged", role.getName(), role.getId()));
                 continue;
             }
 
             if (!role.canInteract()) {
-                logger.warning(tl("discordLinkInvalidRoleInteract", role.getName(), role.getId()));
+                ess.getLogger().warning(tl("discordLinkInvalidRoleInteract", role.getName(), role.getId()));
                 continue;
             }
 
@@ -176,11 +174,11 @@ public class RoleSyncManager implements Listener {
             final InteractionRole role = ess.getApi().getRole(entry.getKey());
             final String group = entry.getValue();
             if (role == null) {
-                logger.warning(tl("discordLinkInvalidRole", entry.getKey(), group));
+                ess.getLogger().warning(tl("discordLinkInvalidRole", entry.getKey(), group));
                 continue;
             }
             if (!groups.contains(group)) {
-                logger.warning(tl("discordLinkInvalidGroup", group, entry.getKey(), groups));
+                ess.getLogger().warning(tl("discordLinkInvalidGroup", group, entry.getKey(), groups));
                 continue;
             }
 

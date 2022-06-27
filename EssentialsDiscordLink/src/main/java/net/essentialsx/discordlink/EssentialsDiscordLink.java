@@ -1,5 +1,6 @@
 package net.essentialsx.discordlink;
 
+import com.earth2me.essentials.EssentialsLogger;
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.metrics.MetricsWrapper;
 import com.google.common.collect.ImmutableSet;
@@ -25,7 +26,6 @@ import java.util.logging.Logger;
 import static com.earth2me.essentials.I18n.tl;
 
 public class EssentialsDiscordLink extends JavaPlugin {
-    private final static Logger logger = Logger.getLogger("EssentialsDiscordLink");
     private transient IEssentials ess;
     private transient MetricsWrapper metrics = null;
 
@@ -54,7 +54,7 @@ public class EssentialsDiscordLink extends JavaPlugin {
         try {
             accounts = new AccountStorage(this);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Unable to create link accounts file", e);
+            getLogger().log(Level.SEVERE, "Unable to create link accounts file", e);
             setEnabled(false);
             return;
         }
@@ -121,5 +121,15 @@ public class EssentialsDiscordLink extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return ess.onCommandEssentials(sender, command, label, args, EssentialsDiscordLink.class.getClassLoader(), "net.essentialsx.discordlink.commands.bukkit.Command", "essentials.", linkManager);
+    }
+
+    @Override
+    public Logger getLogger() {
+        try {
+            return EssentialsLogger.getLoggerProvider(this);
+        } catch (Throwable ignored) {
+            // In case Essentials isn't installed/loaded
+            return super.getLogger();
+        }
     }
 }
