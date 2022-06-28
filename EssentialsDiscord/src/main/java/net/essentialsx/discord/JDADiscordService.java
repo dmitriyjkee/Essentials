@@ -11,10 +11,10 @@ import com.earth2me.essentials.utils.NumberUtil;
 import com.earth2me.essentials.utils.VersionUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.Webhook;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -156,7 +156,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
 
         jda = JDABuilder.createDefault(plugin.getSettings().getBotToken())
                 .addEventListeners(new DiscordListener(this))
-                .enableCache(CacheFlag.EMOTE)
+                .enableCache(CacheFlag.EMOJI)
                 .disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE)
                 .setContextEnabled(false)
                 .build()
@@ -192,7 +192,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
         }
 
         // Load emotes into cache, JDA will handle updates from here on out.
-        guild.retrieveEmotes().queue();
+        guild.retrieveEmojis().queue();
 
         updatePrimaryChannel();
 
@@ -297,7 +297,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
     }
 
     public String parseMessageEmotes(String message) {
-        for (final Emote emote : guild.getEmoteCache()) {
+        for (final RichCustomEmoji emote : guild.getEmojiCache()) {
             message = message.replaceAll(":" + Pattern.quote(emote.getName()) + ":", emote.getAsMention());
         }
         return message;

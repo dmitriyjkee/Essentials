@@ -38,7 +38,7 @@ public final class DiscordUtil {
         final ImmutableList.Builder<Message.MentionType> types = new ImmutableList.Builder<>();
         types.add(Message.MentionType.USER);
         types.add(Message.MentionType.CHANNEL);
-        types.add(Message.MentionType.EMOTE);
+        types.add(Message.MentionType.EMOJI);
         NO_GROUP_MENTIONS = types.build();
     }
 
