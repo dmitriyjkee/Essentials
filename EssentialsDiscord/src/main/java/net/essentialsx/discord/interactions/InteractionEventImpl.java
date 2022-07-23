@@ -76,7 +76,7 @@ public class InteractionEventImpl implements InteractionEvent {
     @Override
     public InteractionChannel getChannelArgument(String key) {
         final OptionMapping mapping = event.getOption(key);
-        return mapping == null ? null : new InteractionChannelImpl(mapping.getAsMessageChannel());
+        return mapping == null ? null : new InteractionChannelImpl(mapping.getAsChannel().asGuildMessageChannel());
     }
 
     @Override
