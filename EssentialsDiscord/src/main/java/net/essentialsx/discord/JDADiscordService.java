@@ -141,7 +141,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
             return;
         }
         channel.sendMessage(strippedContent)
-                .allowedMentions(groupMentions ? null : DiscordUtil.NO_GROUP_MENTIONS)
+                .setAllowedMentions(groupMentions ? null : DiscordUtil.NO_GROUP_MENTIONS)
                 .queue();
     }
 

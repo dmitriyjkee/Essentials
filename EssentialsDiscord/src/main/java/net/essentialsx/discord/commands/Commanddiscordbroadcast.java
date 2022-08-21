@@ -48,7 +48,7 @@ public class Commanddiscordbroadcast extends EssentialsCommand {
         }
 
         channel.sendMessage(jda.parseMessageEmotes(message))
-                .allowedMentions(sender.isAuthorized("essentials.discordbroadcast.ping", ess) ? null : DiscordUtil.NO_GROUP_MENTIONS)
+                .setAllowedMentions(sender.isAuthorized("essentials.discordbroadcast.ping", ess) ? null : DiscordUtil.NO_GROUP_MENTIONS)
                 .queue();
 
         sender.sendMessage(tl("discordbroadcastSent", "#" + EmojiParser.parseToAliases(channel.getName())));
